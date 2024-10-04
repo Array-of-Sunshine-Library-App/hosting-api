@@ -14,3 +14,6 @@ app.route("/api/endpoints").get(getEndpoints);
 app.route("/api/test").get(testEnd);
 
 app.use(errorHandler);
+
+const PORT = process.env.PORT || 3000
+app.listen(PORT, () => { console.log(`Server running on port ${PORT}`); });
