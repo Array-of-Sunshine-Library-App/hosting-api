@@ -47,14 +47,14 @@ exports.newBookLibrary = (book, username) => {
     .collection("users")
     .doc(username)
     .collection("books")
-    .doc(book.bookInfo.industryIdentifiers[0].identifier)
+    .doc(book.bookId)
     .set(book)
     .then(() => {
       return db
         .collection("users")
         .doc(username)
         .collection("books")
-        .doc(book.bookInfo.industryIdentifiers[0].identifier)
+        .doc(book.bookId)
         .get()
         .then((book) => {
           return book.data();
@@ -107,14 +107,14 @@ exports.newBookWishList = (book, username) => {
     .collection("users")
     .doc(username)
     .collection("wishlist")
-    .doc(book.industryIdentifiers[0].identifier)
+    .doc(book.bookId)
     .set(book)
     .then(() => {
       return db
         .collection("users")
         .doc(username)
         .collection("wishlist")
-        .doc(book.industryIdentifiers[0].identifier)
+        .doc(book.bookId)
         .get()
         .then((book) => {
           return book.data();
