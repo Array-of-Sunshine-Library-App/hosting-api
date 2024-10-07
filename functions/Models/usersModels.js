@@ -456,5 +456,13 @@ exports.deleteFriend = (username, toDelete) => {
     .doc(username)
     .collection("friends")
     .doc(toDelete)
-    .delete();
+    .delete()
+    .then(() => {
+      return db
+        .collection("users")
+        .doc(toDelete)
+        .collection("friends")
+        .doc(username)
+        .delete();
+    });
 };
