@@ -25,6 +25,7 @@ const {
   returnBorrowedBookById,
   fetchEndpoints,
   fetchAllUsers,
+  deleteFriend,
 } = require("../Models/usersModels");
 
 exports.postUser = (req, res, next) => {
@@ -297,4 +298,15 @@ exports.getEndpoints = (req, res, next) => {
 
 exports.testEnd = (req, res, next) => {
   res.status(200).send("this has worked perfectly you genius");
+};
+
+exports.deletingFriend = (req, res, next) => {
+  const { username, todelete } = req.params;
+  deleteFriend(username, todelete)
+    .then(() => {
+      res.status(204).send();
+    })
+    .catch((err) => {
+      next(err);
+    });
 };

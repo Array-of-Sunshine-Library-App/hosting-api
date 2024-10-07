@@ -449,3 +449,12 @@ exports.fetchEndpoints = () => {
     return JSON.parse(data);
   });
 };
+
+exports.deleteFriend = (username, toDelete) => {
+  return db
+    .collection("users")
+    .doc(username)
+    .collection("friends")
+    .doc(toDelete)
+    .delete();
+};
