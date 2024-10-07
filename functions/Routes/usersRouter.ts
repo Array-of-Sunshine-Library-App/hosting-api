@@ -22,10 +22,13 @@ const {
   deleteBorrowRequest,
   returnBookById,
   getBorrowing,
-  getEndpoints
+  getEndpoints,
+  getAllUsers,
 } = require("../Controllers/usersControllers");
 
 const usersRouter = express.Router();
+
+usersRouter.route("/allusers").get(getAllUsers);
 
 usersRouter.route("/newuser").post(postUser);
 
@@ -81,7 +84,5 @@ usersRouter
   .delete(returnBookById);
 
 usersRouter.route("/:borrower/borrowing").get(getBorrowing);
-
-
 
 module.exports = usersRouter;

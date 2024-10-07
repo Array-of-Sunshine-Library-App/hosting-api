@@ -24,6 +24,7 @@ const {
   removeBorrowRequest,
   returnBorrowedBookById,
   fetchEndpoints,
+  fetchAllUsers,
 } = require("../Models/usersModels");
 
 exports.postUser = (req, res, next) => {
@@ -46,6 +47,12 @@ exports.getUserById = (req, res, next) => {
     .catch((err) => {
       next(err);
     });
+};
+
+exports.getAllUsers = (req, res, next) => {
+  fetchAllUsers().then((users) => {
+    res.status(200).send(users);
+  });
 };
 
 exports.postBookLibrary = (req, res, next) => {

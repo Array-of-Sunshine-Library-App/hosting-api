@@ -26,6 +26,19 @@ exports.fetchUserById = (id) => {
     });
 };
 
+exports.fetchAllUsers = () => {
+  return (
+    db.collection("users").get(),
+    then((users) => {
+      const usersArray = [];
+      users.forEach((user) => {
+        usersArray.push(user.data());
+      });
+      return usersArray;
+    })
+  );
+};
+
 exports.newBookLibrary = (book, username) => {
   // const newBook = {...book, }
   // }
