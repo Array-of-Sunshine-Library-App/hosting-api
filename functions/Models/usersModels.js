@@ -4,7 +4,7 @@ exports.newUser = (userData) => {
   return db
     .collection("users")
     .doc(userData.username)
-    .create({ name: userData.name, friends: [], friendRequests: [] })
+    .create({ name: userData.name, username: userData.username })
     .then(() => {
       return db
         .collection("users")
