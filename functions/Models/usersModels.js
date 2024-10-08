@@ -35,7 +35,6 @@ exports.fetchAllUsers = () => {
       users.forEach((user) => {
         usersArray.push(user.data());
       });
-      console.log(usersArray);
       return usersArray;
     });
 };
@@ -372,7 +371,6 @@ exports.removeFriendRequest = (username, rejectfriend) => {
 };
 
 exports.removeBorrowRequest = (username, bookid) => {
-  console.log("you here", username, bookid);
   return db
     .collection("users")
     .doc(username)
@@ -391,14 +389,12 @@ exports.fetchLending = (owner) => {
       const booksArray = [];
       books.forEach((book) => {
         booksArray.push({ [book.id]: book.data() });
-        console.log(book.id);
       });
       return booksArray;
     });
 };
 
 exports.fetchBorrowing = (borrower) => {
-  console.log(borrower, "you here");
   return db
     .collection("users")
     .doc(borrower)
@@ -408,7 +404,6 @@ exports.fetchBorrowing = (borrower) => {
       const booksArray = [];
       books.forEach((book) => {
         booksArray.push({ [book.id]: book.data() });
-        console.log(book.id);
       });
       return booksArray;
     });

@@ -162,7 +162,6 @@ exports.postFriendRequest = (req, res, next) => {
 exports.postAceptFriendRequest = (req, res, next) => {
   const { username } = req.params;
   const { body } = req;
-  console.log(username, body);
   acceptFriendRequest(username, body)
     .then((friendname) => {
       res.status(201).send(friendname);
@@ -174,7 +173,6 @@ exports.postAceptFriendRequest = (req, res, next) => {
 
 exports.getFriendsList = (req, res, next) => {
   const { username } = req.params;
-  console.log(username);
   fetchFriendsList(username)
     .then((friends) => {
       res.status(200).send(friends);
@@ -197,7 +195,6 @@ exports.getFriendRequestsList = (req, res, next) => {
 
 exports.requestBookToBorrow = (req, res, next) => {
   const { borrower, owner, bookid } = req.params;
-  console.log(borrower, owner, bookid);
   postRequestToBorrow(borrower, owner, bookid)
     .then(() => {
       res.status(201).send();
@@ -209,7 +206,6 @@ exports.requestBookToBorrow = (req, res, next) => {
 
 exports.getRequestsByBook = (req, res, next) => {
   const { owner, bookid } = req.params;
-  console.log(owner, bookid);
   getRequestToBorrow(owner, bookid)
     .then((requestList) => {
       res.status(200).send(requestList);
@@ -243,7 +239,6 @@ exports.getLending = (req, res, next) => {
 
 exports.getBorrowing = (req, res, next) => {
   const { borrower } = req.params;
-  console.log(borrower, "borrower");
   fetchBorrowing(borrower)
     .then((borrowList) => {
       res.status(200).send(borrowList);
