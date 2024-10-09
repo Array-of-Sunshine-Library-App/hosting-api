@@ -294,7 +294,11 @@ exports.postRequestToBorrow = (borrower, owner, bookId) => {
         .collection("borrowRequest")
         .doc(bookId)
         .set(
-          { bookInfo: book.data().bookInfo, [borrower]: Date.now() },
+          {
+            bookInfo: book.data().bookInfo,
+            timeBorrowed: Date.now(),
+            requestFrom: borrower,
+          },
           { merge: true }
         );
     });
@@ -349,7 +353,7 @@ exports.acceptRequest = (owner, bookId, borrower) => {
         .doc(borrower)
         .collection("borrowed")
         .doc(bookId)
-        .set({ isLentFrom: owner, bookInfo: book.data().bookInfo });
+        .set({ isLentFrom: owner, ...book.data().bookInfo });
     })
     .then(() => {
       return db
@@ -403,7 +407,7 @@ exports.fetchBorrowing = (borrower) => {
     .then((books) => {
       const booksArray = [];
       books.forEach((book) => {
-        booksArray.push({ [book.id]: book.data() });
+        booksArray.push(book.data());
       });
       return booksArray;
     });
