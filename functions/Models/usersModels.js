@@ -296,7 +296,7 @@ exports.postRequestToBorrow = (borrower, owner, bookId) => {
         .set(
           {
             ...book.data(),
-            [borrower]: borrower,
+            requests: { [borrower]: borrower },
           },
           { merge: true }
         );
