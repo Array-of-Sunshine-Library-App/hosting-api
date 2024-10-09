@@ -353,7 +353,7 @@ exports.acceptRequest = (owner, bookId, borrower) => {
         .doc(borrower)
         .collection("borrowed")
         .doc(bookId)
-        .set({ isLentFrom: owner, ...book.data().bookInfo });
+        .set({ isLentFrom: owner, bookInfo: book.data().bookInfo });
     })
     .then(() => {
       return db
@@ -392,7 +392,7 @@ exports.fetchLending = (owner) => {
     .then((books) => {
       const booksArray = [];
       books.forEach((book) => {
-        booksArray.push({ [book.id]: book.data() });
+        booksArray.push(book.data());
       });
       return booksArray;
     });
