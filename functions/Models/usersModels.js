@@ -296,8 +296,7 @@ exports.postRequestToBorrow = (borrower, owner, bookId) => {
         .set(
           {
             bookInfo: book.data().bookInfo,
-            timeBorrowed: Date.now(),
-            requestFrom: borrower,
+            requestFrom: { [borrower]: Date.now },
           },
           { merge: true }
         );
