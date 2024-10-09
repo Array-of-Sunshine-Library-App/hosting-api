@@ -26,6 +26,7 @@ const {
   getEndpoints,
   getAllUsers,
   deletingFriend,
+  getAllBorrowRequests,
 } = require("../Controllers/usersControllers");
 const usersRouter = express.Router();
 usersRouter.route("/allusers").get(getAllUsers);
@@ -59,9 +60,7 @@ usersRouter.route("/:username/friends").get(getFriendsList);
 usersRouter
   .route("/:borrower/books/:bookid/requestlend/:owner")
   .post(requestBookToBorrow);
-usersRouter
-  .route("/:owner/books/:bookid/requestlist/:borrower")
-  .get(getRequestsByBook);
+usersRouter.route("/:owner/books/:bookid/requestlist").get(getRequestsByBook);
 usersRouter
   .route("/:owner/books/:bookid/acceptrequest/:borrower")
   .post(postAcceptedRequest);
@@ -74,4 +73,5 @@ usersRouter
   .delete(returnBookById);
 usersRouter.route("/:borrower/borrowing").get(getBorrowing);
 usersRouter.route("/:username/friends/:todelete").delete(deletingFriend);
+usersRouter.route("/:username/requestborrow").get(getAllBorrowRequests);
 module.exports = usersRouter;

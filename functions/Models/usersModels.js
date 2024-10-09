@@ -296,7 +296,7 @@ exports.postRequestToBorrow = (borrower, owner, bookId) => {
         .set(
           {
             bookInfo: book.data().bookInfo,
-            requestFrom: { [borrower]: Date.now },
+            requestFrom: { [borrower]: borrower },
           },
           { merge: true }
         );
@@ -311,7 +311,7 @@ exports.getRequestToBorrow = (owner, bookId) => {
     .doc(bookId)
     .get()
     .then((requestInfo) => {
-      return requestInfo.data();
+      return requestInfo.data().requestFrom;
     });
 };
 
@@ -462,5 +462,20 @@ exports.deleteFriend = (username, toDelete) => {
         .collection("friends")
         .doc(username)
         .delete();
+    });
+};
+
+exports.fetchAllBorrowRequests = (username) => {
+  return db
+    .collection("users")
+    .doc(username)
+    .collection("borrowRequest")
+    .get()
+    .then((books) => {
+      const bookArray = [];
+      books.forEach((book) => {
+        bookArray.push(book.data());
+      });
+      return bookArray;
     });
 };

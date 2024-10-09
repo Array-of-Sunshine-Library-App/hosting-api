@@ -26,6 +26,7 @@ const {
   fetchEndpoints,
   fetchAllUsers,
   deleteFriend,
+  fetchAllBorrowRequests,
 } = require("../Models/usersModels");
 
 exports.postUser = (req, res, next) => {
@@ -300,6 +301,17 @@ exports.deletingFriend = (req, res, next) => {
   deleteFriend(username, todelete)
     .then(() => {
       res.status(204).send();
+    })
+    .catch((err) => {
+      next(err);
+    });
+};
+
+exports.getAllBorrowRequests = (req, res, next) => {
+  const { username } = req.params;
+  fetchAllBorrowRequests(username)
+    .then((books) => {
+      res.status(200).send(books);
     })
     .catch((err) => {
       next(err);
