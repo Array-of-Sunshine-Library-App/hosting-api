@@ -67,7 +67,7 @@ exports.fetchBooksById = (username, lendable) => {
       .collection("users")
       .doc(username)
       .collection("books")
-      .where("lendable", "==", true)
+      .where("isLendable", "==", true)
       .get()
       .then((books) => {
         const bookArray = [];
