@@ -295,8 +295,8 @@ exports.postRequestToBorrow = (borrower, owner, bookId) => {
         .doc(bookId)
         .set(
           {
-            bookInfo: book.data().bookInfo,
-            requestFrom: { [borrower]: borrower },
+            ...book.data(),
+            [borrower]: borrower,
           },
           { merge: true }
         );
@@ -328,7 +328,7 @@ exports.acceptRequest = (owner, bookId, borrower) => {
         .doc(owner)
         .collection("lending")
         .doc(bookId)
-        .set({ bookInfo: book.data().bookInfo, borrower: borrower });
+        .set({ ...book.data(), borrower: borrower });
     })
     .then(() => {
       return db
@@ -336,7 +336,7 @@ exports.acceptRequest = (owner, bookId, borrower) => {
         .doc(owner)
         .collection("books")
         .doc(bookId)
-        .update({ isLentTo: borrower, lendable: false });
+        .update({ isLentTo: borrower, isLendable: false });
     })
     .then(() => {
       return db
@@ -352,7 +352,7 @@ exports.acceptRequest = (owner, bookId, borrower) => {
         .doc(borrower)
         .collection("borrowed")
         .doc(bookId)
-        .set({ isLentFrom: owner, bookInfo: book.data().bookInfo });
+        .set({ isLentFrom: owner, ...book.data() });
     })
     .then(() => {
       return db
@@ -414,32 +414,28 @@ exports.fetchBorrowing = (borrower) => {
 
 exports.returnBorrowedBookById = (borrower, owner, bookid) => {
   //remove book from borrowers borrowed
-  return (
-    db
-      .collection("users")
-      .doc(borrower)
-      .collection("borrowed")
-      .doc(bookid)
-      .delete()
-      //remove book from owners lending
-      .then(() => {
-        return db
-          .collection("users")
-          .doc(owner)
-          .collection("lending")
-          .doc(bookid)
-          .delete();
-      })
-      //set owners book isLendable to true
-      .then(() => {
-        return db
-          .collection("users")
-          .doc(owner)
-          .collection("books")
-          .doc(bookid)
-          .set({ lendable: true }, { merge: true });
-      })
-  );
+  return db
+    .collection("users")
+    .doc(borrower)
+    .collection("borrowed")
+    .doc(bookid)
+    .delete()
+    .then(() => {
+      return db
+        .collection("users")
+        .doc(owner)
+        .collection("lending")
+        .doc(bookid)
+        .delete();
+    })
+    .then(() => {
+      return db
+        .collection("users")
+        .doc(owner)
+        .collection("books")
+        .doc(bookid)
+        .set({ isLendable: true }, { merge: true });
+    });
 };
 
 exports.fetchEndpoints = () => {
