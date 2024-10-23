@@ -1,0 +1,132 @@
+{
+  "GET /api": {
+    "description": "serves a JSON with all the endpoints"
+  },
+  "POST /api/users/newuser": {
+    "description": "Posts a new user and serves the new user",
+    "example body": { "username": "username123" },
+    "example response": ""
+  },
+  "GET /api/users/:username": {
+    "description": "serves a user based on their username",
+    "example response": { "name": "Alan" }
+  },
+  "POST /api/users/:username/books": {
+    "description": "posts a new book to the library",
+    "example body": {
+      "owned": true,
+      "physical": true,
+      "lendable": true,
+      "notes": "This book changes my life",
+      "review": "This book is very prentenciuos",
+      "rating": 3,
+      "read": true,
+      "bookInfo": {}
+    },
+    "example response": {}
+  },
+  "GET /api/users/:username/books": {
+    "description": "serves a user all books in library based on username",
+    "example response": [
+      {
+        "owned": true,
+        "physical": true,
+        "lendable": true,
+        "notes": "This book changes my life",
+        "review": "This book is very prentenciuos",
+        "rating": 3,
+        "read": true,
+        "bookInfo": {}
+      }
+    ]
+  },
+  "GET /api/users/:username/wishlist": {
+    "description": "serves a user all books in library based on username",
+    "queries": "lendable(true/false)",
+    "example response": [
+      {
+        "owned": true,
+        "physical": true,
+        "lendable": true,
+        "notes": "This book changes my life",
+        "review": "This book is very prentenciuos",
+        "rating": 3,
+        "read": true,
+        "bookInfo": {}
+      }
+    ]
+  },
+  "POST /api/users/:username/wishlist": {
+    "description": "posts a chosen book and serves bookInfo",
+    "example body": { "bookInfo": {} },
+    "example response": { "bookInfo": {} }
+  },
+  "GET /api/users/:username/books/:bookId": {
+    "description": "serves a user a chosen book from their library",
+    "example response": {
+      "owned": true,
+      "physical": true,
+      "lendable": true,
+      "notes": "This book changes my life",
+      "review": "This book is very prentenciuos",
+      "rating": 3,
+      "read": true,
+      "bookInfo": {}
+    }
+  },
+  "DELETE /api/users/:username/books/:bookId": {
+    "description": "serves nothing and deletes book from library based on id"
+  },
+  "GET /api/users/:username/wishlist/:bookId": {
+    "description": "serves a user a chosen book from their wishlist",
+    "example response": {
+      "bookInfo": {}
+    }
+  },
+  "DELETE /api/users/:username/wishlist/:bookId": {
+    "description": "serves nothing and deletes book from wishlist based on id"
+  },
+  "POST /api/users/:username/friendrequests": {
+    "description": "posts a friend request to another user",
+    "params": "username is the current user",
+    "example body": { "username": "username123" }
+  },
+  "GET /api/users/:username/friendrequests": {
+    "description": "serves user all friend requests",
+    "params": "username is the current user",
+    "example response": { "username": "username123" }
+  },
+  "GET /api/users/:username/friends": {
+    "description": "serves user all friends",
+    "params": "username is the current user",
+    "example response": [
+      { "username": "username123" },
+      { "username": "jeff123" }
+    ]
+  },
+  "POST /api/users/:username/acceptfriend": {
+    "description": "accepts a friend request and adds them to friends list and serves friends name",
+    "params": "username is the current user",
+    "example response": { "username": "username123" }
+  },
+  "POST /api/users/:borrower/books/:owner": {
+    "description": "accepts a friend request and adds them to friends list and serves friends name",
+    "example response": "MAKE A RESPONSE"
+  },
+  "GET /api/users/:owner/books/:bookid/requestlist/:borrower": {
+    "description": "serves user with all borrow requests for a given book ",
+    "example response": {
+      "bookinfo": {},
+      "example123": "timestamp",
+      "jeff123": "timestamp"
+    }
+  },
+  "POST /:owner/books/:bookid/acceptrequest/:borrower": {
+    "description": "serves user with nothing and accepts a borrow request",
+    "example response": "MAKE A RESPONSE"
+  },
+  "GET /:owner/lending": {
+    "description": "serves user with list of books they are currently lending",
+    "example response": { "bookInfo": {}, "borrower": "username123" }
+  }
+}
