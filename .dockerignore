@@ -1,0 +1,11 @@
+functions/node_modules
+node_modules
+.git
+.gitignore
+.firebase/
+.firebaserc
+firebase.json
+public/
+*.log
+.env
+functions/.env
