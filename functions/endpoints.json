@@ -1,132 +1,167 @@
 {
-  "GET /api": {
-    "description": "serves a JSON with all the endpoints"
+  "GET /api/endpoints": {
+    "description": "Returns this JSON describing all available endpoints"
+  },
+  "GET /api/test": {
+    "description": "Health check endpoint"
+  },
+  "GET /api/users/allusers": {
+    "description": "Returns an array of all users",
+    "example response": [
+      { "username": "alice123", "name": "Alice" },
+      { "username": "bob456", "name": "Bob" }
+    ]
   },
   "POST /api/users/newuser": {
-    "description": "Posts a new user and serves the new user",
-    "example body": { "username": "username123" },
-    "example response": ""
+    "description": "Creates a new user and returns the created user",
+    "example body": { "username": "alice123", "name": "Alice" },
+    "example response": { "username": "alice123", "name": "Alice" }
   },
   "GET /api/users/:username": {
-    "description": "serves a user based on their username",
-    "example response": { "name": "Alan" }
+    "description": "Returns a single user by username",
+    "example response": { "username": "alice123", "name": "Alice" }
   },
   "POST /api/users/:username/books": {
-    "description": "posts a new book to the library",
+    "description": "Adds a book to the user's personal library and returns it",
     "example body": {
+      "bookId": "abc123",
       "owned": true,
       "physical": true,
       "lendable": true,
-      "notes": "This book changes my life",
-      "review": "This book is very prentenciuos",
-      "rating": 3,
+      "isLendable": true,
+      "notes": "A great read",
+      "review": "Highly recommended",
+      "rating": 5,
       "read": true,
       "bookInfo": {}
     },
-    "example response": {}
-  },
-  "GET /api/users/:username/books": {
-    "description": "serves a user all books in library based on username",
-    "example response": [
-      {
-        "owned": true,
-        "physical": true,
-        "lendable": true,
-        "notes": "This book changes my life",
-        "review": "This book is very prentenciuos",
-        "rating": 3,
-        "read": true,
-        "bookInfo": {}
-      }
-    ]
-  },
-  "GET /api/users/:username/wishlist": {
-    "description": "serves a user all books in library based on username",
-    "queries": "lendable(true/false)",
-    "example response": [
-      {
-        "owned": true,
-        "physical": true,
-        "lendable": true,
-        "notes": "This book changes my life",
-        "review": "This book is very prentenciuos",
-        "rating": 3,
-        "read": true,
-        "bookInfo": {}
-      }
-    ]
-  },
-  "POST /api/users/:username/wishlist": {
-    "description": "posts a chosen book and serves bookInfo",
-    "example body": { "bookInfo": {} },
-    "example response": { "bookInfo": {} }
-  },
-  "GET /api/users/:username/books/:bookId": {
-    "description": "serves a user a chosen book from their library",
     "example response": {
+      "bookId": "abc123",
       "owned": true,
       "physical": true,
       "lendable": true,
-      "notes": "This book changes my life",
-      "review": "This book is very prentenciuos",
-      "rating": 3,
+      "isLendable": true,
+      "notes": "A great read",
+      "review": "Highly recommended",
+      "rating": 5,
       "read": true,
       "bookInfo": {}
     }
   },
-  "DELETE /api/users/:username/books/:bookId": {
-    "description": "serves nothing and deletes book from library based on id"
+  "GET /api/users/:username/books": {
+    "description": "Returns all books in the user's library. Accepts optional query ?lendable=true to filter to lendable books only",
+    "queries": "lendable (true/false)",
+    "example response": [
+      {
+        "bookId": "abc123",
+        "owned": true,
+        "physical": true,
+        "lendable": true,
+        "isLendable": true,
+        "rating": 5,
+        "read": true,
+        "bookInfo": {}
+      }
+    ]
   },
-  "GET /api/users/:username/wishlist/:bookId": {
-    "description": "serves a user a chosen book from their wishlist",
+  "GET /api/users/:username/books/:bookid": {
+    "description": "Returns a single book from the user's library",
     "example response": {
+      "bookId": "abc123",
+      "owned": true,
+      "physical": true,
+      "lendable": true,
+      "isLendable": true,
+      "rating": 5,
+      "read": true,
       "bookInfo": {}
     }
   },
-  "DELETE /api/users/:username/wishlist/:bookId": {
-    "description": "serves nothing and deletes book from wishlist based on id"
+  "DELETE /api/users/:username/books/:bookid": {
+    "description": "Deletes a book from the user's library. Returns 204 No Content"
+  },
+  "POST /api/users/:username/wishlist": {
+    "description": "Adds a book to the user's wishlist and returns it",
+    "example body": { "bookId": "abc123", "bookInfo": {} },
+    "example response": { "bookId": "abc123", "bookInfo": {} }
+  },
+  "GET /api/users/:username/wishlist": {
+    "description": "Returns all books on the user's wishlist",
+    "example response": [
+      { "bookId": "abc123", "bookInfo": {} }
+    ]
+  },
+  "GET /api/users/:username/wishlist/:bookid": {
+    "description": "Returns a single book from the user's wishlist",
+    "example response": { "bookId": "abc123", "bookInfo": {} }
+  },
+  "DELETE /api/users/:username/wishlist/:bookid": {
+    "description": "Removes a book from the user's wishlist. Returns 204 No Content"
   },
   "POST /api/users/:username/friendrequests": {
-    "description": "posts a friend request to another user",
-    "params": "username is the current user",
-    "example body": { "username": "username123" }
+    "description": "Sends a friend request to another user. :username is the sender",
+    "example body": { "username": "bob456" },
+    "example response": { "username": "bob456" }
   },
   "GET /api/users/:username/friendrequests": {
-    "description": "serves user all friend requests",
-    "params": "username is the current user",
-    "example response": { "username": "username123" }
-  },
-  "GET /api/users/:username/friends": {
-    "description": "serves user all friends",
-    "params": "username is the current user",
+    "description": "Returns all pending incoming friend requests for the user",
     "example response": [
-      { "username": "username123" },
-      { "username": "jeff123" }
+      { "username": "bob456" }
     ]
   },
   "POST /api/users/:username/acceptfriend": {
-    "description": "accepts a friend request and adds them to friends list and serves friends name",
-    "params": "username is the current user",
-    "example response": { "username": "username123" }
+    "description": "Accepts a friend request. Adds both users to each other's friends list and removes the pending request",
+    "example body": { "username": "bob456" },
+    "example response": { "username": "bob456" }
   },
-  "POST /api/users/:borrower/books/:owner": {
-    "description": "accepts a friend request and adds them to friends list and serves friends name",
-    "example response": "MAKE A RESPONSE"
+  "DELETE /api/users/:username/friendrequests/:rejectfriend": {
+    "description": "Rejects and removes a pending friend request. Returns 204 No Content"
   },
-  "GET /api/users/:owner/books/:bookid/requestlist/:borrower": {
-    "description": "serves user with all borrow requests for a given book ",
+  "GET /api/users/:username/friends": {
+    "description": "Returns the user's full friends list",
+    "example response": [
+      { "username": "bob456" },
+      { "username": "carol789" }
+    ]
+  },
+  "DELETE /api/users/:username/friends/:todelete": {
+    "description": "Removes a friend from both users' friends lists. Returns 204 No Content"
+  },
+  "POST /api/users/:borrower/books/:bookid/requestlend/:owner": {
+    "description": "Sends a borrow request from :borrower to the :owner of the book. Returns 201 with no body"
+  },
+  "GET /api/users/:owner/books/:bookid/requestlist": {
+    "description": "Returns all pending borrow requests for a specific book",
     "example response": {
-      "bookinfo": {},
-      "example123": "timestamp",
-      "jeff123": "timestamp"
+      "alice123": "alice123",
+      "bob456": "bob456"
     }
   },
-  "POST /:owner/books/:bookid/acceptrequest/:borrower": {
-    "description": "serves user with nothing and accepts a borrow request",
-    "example response": "MAKE A RESPONSE"
+  "POST /api/users/:owner/books/:bookid/acceptrequest/:borrower": {
+    "description": "Accepts a borrow request. Moves the book into lending/borrowed collections and marks it as not lendable. Returns 201 with no body"
   },
-  "GET /:owner/lending": {
-    "description": "serves user with list of books they are currently lending",
-    "example response": { "bookInfo": {}, "borrower": "username123" }
+  "DELETE /api/users/:username/borrowrequest/:bookid": {
+    "description": "Cancels a borrow request. Returns 204 No Content"
+  },
+  "GET /api/users/:owner/lending": {
+    "description": "Returns all books the user is currently lending out",
+    "example response": [
+      { "bookId": "abc123", "bookInfo": {}, "borrower": "bob456" }
+    ]
+  },
+  "GET /api/users/:borrower/borrowing": {
+    "description": "Returns all books the user is currently borrowing",
+    "example response": [
+      { "bookId": "abc123", "bookInfo": {}, "isLentFrom": "alice123" }
+    ]
+  },
+  "DELETE /api/users/:borrower/returnbook/:owner/:bookid": {
+    "description": "Returns a borrowed book. Removes it from both users' lending/borrowed collections and marks the book as lendable again. Returns 204 No Content"
+  },
+  "GET /api/users/:username/requestborrow": {
+    "description": "Returns all incoming borrow requests across all of the user's books",
+    "example response": [
+      { "bookId": "abc123", "bookInfo": {}, "requests": { "bob456": "bob456" } }
+    ]
   }
 }

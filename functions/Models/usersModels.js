@@ -311,7 +311,7 @@ exports.getRequestToBorrow = (owner, bookId) => {
     .doc(bookId)
     .get()
     .then((requestInfo) => {
-      return requestInfo.data().requestFrom;
+      return requestInfo.data().requests;
     });
 };
 

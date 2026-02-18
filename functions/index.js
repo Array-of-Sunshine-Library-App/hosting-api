@@ -4,7 +4,7 @@ const usersRouter = require("./Routes/usersRouter");
 const { errorHandler } = require("./error-handler");
 const { getEndpoints, testEnd } = require("./Controllers/usersControllers");
 
-app = express();
+const app = express();
 
 app.use(cors({ origin: true }));
 app.use(express.json());
